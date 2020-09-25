@@ -3,4 +3,6 @@ class User < ActiveRecord::Base
   validates :email_address, uniqueness: { case_sensitive: false }
   validates :is_admin, presence: true
   has_secure_password
+
+  has_many :posts
 end
