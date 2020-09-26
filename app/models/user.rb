@@ -4,5 +4,5 @@ class User < ActiveRecord::Base
   validates :is_admin, presence: true
   has_secure_password
 
-  has_many :posts
+  has_many :posts, :comments
 end
