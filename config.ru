@@ -4,5 +4,5 @@ raise 'Migrations are pending. Run `rake db:migrate` to resolve the issue.' if A
 
 use UsersController
 use PostsController
-run ApplicationController
 use CommentsController
+run ApplicationController
