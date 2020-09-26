@@ -3,5 +3,6 @@ class Post < ActiveRecord::Base
   validates :user_id, presence: true
 
   belongs_to :user
-  has_many :images, :comments
+  has_many :images
+  has_many :comments
 end
