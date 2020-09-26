@@ -2,7 +2,7 @@ class PostsController < ApplicationController
 
   # GET: /posts
   get "/posts" do
-    erb :"/posts/index.html"
+    erb :"/posts/index.html" # done
   end
 
   # GET: /posts/new
