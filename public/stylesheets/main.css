@@ -82,9 +82,7 @@
     padding-top: 20px;
   }
 
-  header {
-    text-align: center;
-  }
+
 }
 
 @media screen and (max-width: 600px) {
@@ -116,4 +114,9 @@
     font-size: 18px;
     line-height: 24px;
   }
+}
+
+nav {
+  display: block;
+  text-align: center;
 }
