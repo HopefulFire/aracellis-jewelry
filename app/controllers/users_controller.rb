@@ -62,12 +62,31 @@ class UsersController < ApplicationController
   end
 
   get '/users/login' do
-    erb :"/users/login.html"
+    @user = User.find_by(id: session[:user_id])
+    if !@user
+      erb :"/users/login.html"
+    else
+      redirect '/users/home'
+    end
   end
 
   post '/users/login' do
     @user = User.find_by(username: params[:username], password: params[:password])
     session[:user_id] = @user.id if @user
     redirect '/users/home'
+  end
+
+  get '/users/home' do
+    @user = User.find_by(id: session[:user_id])
+    if @user
+      erb :"/users/home.html"
+    else
+      erb :"/errors/not_authorized.html"
+    end
+  end
+
+  get '/users/logout' do
+    session.clear
+    redirect '/'
   end
 end
