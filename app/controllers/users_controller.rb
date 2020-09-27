@@ -51,6 +51,13 @@ class UsersController < ApplicationController
 
   # DELETE: /users/5/delete
   delete '/users/:id/delete' do
-    redirect '/users'
+    @user = User.find_by(id: params[:id])
+    @login = User.find_by(id: session[:user_id])
+    if @login
+      @user.destroy if @user.id == @login.id || @login.is_admin
+      redirect '/users'
+    else
+      erb :"/errors/not_authorized.html"
+    end
   end
 end
