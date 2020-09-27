@@ -11,30 +11,42 @@ class UsersController < ApplicationController
 
   # POST: /users
   post '/users' do
-    user = User.new
-    user.username = params[:username]
-    user.email_address = params[:email_address]
-    user.password = params[:password]
-    user.is_admin = params[:is_admin] == 'on'
-    if user.save
-      session[:user_id] = user.id
+    @user = User.new
+    @user.username = params[:username]
+    @user.email_address = params[:email_address]
+    @user.password = params[:password]
+    @user.is_admin = false
+    if @user.save
+      session[:user_id] = @user.id
       redirect '/'
+    else
+      redirect '/users/new'
     end
   end
 
   # GET: /users/5
   get '/users/:id' do
-    erb :"/users/show.html"
+    @user = User.find_by(id: params[:id])
+    erb :"/users/show.html" if @user
   end
 
   # GET: /users/5/edit
   get '/users/:id/edit' do
-    erb :"/users/edit.html"
+    @user = User.find_by(id: params[:id])
+    erb :"/users/edit.html" if @user
   end
 
   # PATCH: /users/5
   patch '/users/:id' do
-    redirect '/users/:id'
+    @user = User.find_by(id: params[:id])
+    @user.username = params[:username]
+    @user.email_address = params[:email_address]
+    @user.password = params[:password]
+    if @user.id == session[:user_id] && @user.save
+      redirect '/users/:id'
+    else
+      redirect '/users/:id/edit'
+    end
   end
 
   # DELETE: /users/5/delete
