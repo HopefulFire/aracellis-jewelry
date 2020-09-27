@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-
   get '/users/login' do
     @user = User.find_by(id: session[:user_id])
     if !@user
@@ -10,8 +9,8 @@ class UsersController < ApplicationController
   end
 
   post '/users/login' do
-    @user = User.find_by(username: params[:username], password: params[:password])
-    session[:user_id] = @user.id if @user
+    @user = User.find_by(username: params[:username])
+    session[:user_id] = @user.id if @user&.authenticate(params[:password])
     redirect '/users/home'
   end
 
@@ -28,7 +27,7 @@ class UsersController < ApplicationController
     session.clear
     redirect '/'
   end
-  
+
   # GET: /users
   get '/users' do
     erb :"/users/index.html"
