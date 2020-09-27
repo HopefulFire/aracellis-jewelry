@@ -29,7 +29,12 @@ class PostsController < ApplicationController
 
   # GET: /posts/5
   get '/posts/:id' do
-    erb :"/posts/show.html"
+    @post = Post.find_by(id: params[:id])
+    if @post
+      erb :"/posts/show.html"
+    else
+      redirect '/posts'
+    end
   end
 
   # GET: /posts/5/edit
