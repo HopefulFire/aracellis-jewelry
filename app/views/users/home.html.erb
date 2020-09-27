@@ -9,7 +9,7 @@
 		<% @user.posts.reverse_each do |post| %>
 			<a href=<%= "/posts/#{post.id}" %>>
 				<h3><%= post.title %></h3>
-				<p><%= post.body[0..100] %></p>
+				<p><%= post.body[0..100] %>...</p>
 			</a>
 		<% end %>
 	<% else %>
@@ -21,7 +21,7 @@
 	<% if @user.comments != [] %>
 		<% @user.comments.reverse_each do |comment| %>
 			<a href=<%= "/posts/#{comment.post.id}" %>>
-				<p><%= comment.body[0..100] %>
+				<p><%= comment.body[0..100] %>...</p>
 			</a>
 		<% end %>
 	<% else %>
