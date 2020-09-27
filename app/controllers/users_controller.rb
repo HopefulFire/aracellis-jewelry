@@ -11,7 +11,18 @@ class UsersController < ApplicationController
 
   # POST: /users
   post '/users' do
-    redirect '/users'
+    user = User.new
+    user.username = params[:username]
+    user.email_address = params[:email_address]
+    user.password = params[:password]
+    if params[:is_admin] = "on"
+      user.is_admin = true
+    else
+      user.is_admin = false
+    end
+    if user.save
+      redirect '/users'
+    end
   end
 
   # GET: /users/5
