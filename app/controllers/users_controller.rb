@@ -15,13 +15,10 @@ class UsersController < ApplicationController
     user.username = params[:username]
     user.email_address = params[:email_address]
     user.password = params[:password]
-    if params[:is_admin] = "on"
-      user.is_admin = true
-    else
-      user.is_admin = false
-    end
+    user.is_admin = params[:is_admin] == 'on'
     if user.save
-      redirect '/users'
+      session[:user_id] = user.id
+      redirect '/'
     end
   end
 
