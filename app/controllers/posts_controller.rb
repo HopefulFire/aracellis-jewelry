@@ -11,7 +11,20 @@ class PostsController < ApplicationController
 
   # POST: /posts
   post '/posts' do
-    redirect '/posts'
+    @user = User.find_by(id: session[:user_id])
+    if @user
+      @post = Post.new
+      @post.title = params[:title]
+      @post.body = params[:body]
+      @post.user = @user
+      if @post.save
+        redirect '/posts'
+      else
+        redirect '/posts/new'
+      end
+    else
+      redirect '/users/login'
+    end
   end
 
   # GET: /posts/5
