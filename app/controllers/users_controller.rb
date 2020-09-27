@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  ### SESSIONS ###
   get '/users/login' do
     @user = User.find_by(id: session[:user_id])
     if !@user
@@ -28,6 +29,7 @@ class UsersController < ApplicationController
     redirect '/'
   end
 
+  ### CRUD ###
   # GET: /users
   get '/users' do
     erb :"/users/index.html"
