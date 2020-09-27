@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     @user.is_admin = false
     if @user.save
       session[:user_id] = @user.id
-      redirect '/'
+      redirect '/users/home'
     else
       redirect '/users/new'
     end
@@ -59,5 +59,15 @@ class UsersController < ApplicationController
     else
       erb :"/errors/not_authorized.html"
     end
+  end
+
+  get '/users/login' do
+    erb :"/users/login.html"
+  end
+
+  post '/users/login' do
+    @user = User.find_by(username: params[:username], password: params[:password])
+    session[:user_id] = @user.id if @user
+    redirect '/users/home'
   end
 end
