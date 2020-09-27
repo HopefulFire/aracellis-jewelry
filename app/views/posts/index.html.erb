@@ -1,6 +1,13 @@
-<% for post in Posts.all.reverse_order %>
-	<a href=<%= "/posts/#{post.id}" %>>
-		<h2><%= post.title %></h2>
-		<p><%= post.body[0..20] %>...</p>
-	</a>
-<% end %>
+<div class="posts">
+	<h2>Posts:</h2>
+	<% if @user.posts != [] %>
+		<% @user.posts.reverse_each do |post| %>
+			<a href=<%= "/posts/#{post.id}" %>>
+				<h3><%= post.title %></h3>
+				<p><%= post.body[0..100] %></p>
+			</a>
+		<% end %>
+	<% else %>
+		<p>Nothing here!</p>
+	<% end %>
+</div>
