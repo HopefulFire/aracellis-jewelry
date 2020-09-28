@@ -1,15 +1,19 @@
-<h1><%= @post.title %></h1>
-<p><%= @post.body %></p>
+<div class="posts">
+	<h1><%= @post.title %></h1>
+	<p><%= @post.body %></p>
+</div>
 <% if @user %>
 	<% if @user == @post.user %>
 		<a href=<%= "/posts/#{@post.id}/edit" %>>Edit</a>
 	<% end %>
 	<a href=<%= "/comments/new/#{@post.id}" %>>Comment</a>
 <% end %>
-<% @post.comments.reverse_each do |comment| %>
-	<h2><%= comment.user.username %></h2>
-	<p><%= comment.body %></p>
-	<% if @user && @user == comment.user %>
-		<a href=<%= "/comments/#{comment.id}/edit" %>>Edit</a>
+<div class="comments">
+	<% @post.comments.reverse_each do |comment| %>
+		<h2><%= comment.user.username %></h2>
+		<p><%= comment.body %></p>
+		<% if @user && @user == comment.user %>
+			<a href=<%= "/comments/#{comment.id}/edit" %>>Edit</a>
+		<% end %>
 	<% end %>
-<% end %>
+</div>
