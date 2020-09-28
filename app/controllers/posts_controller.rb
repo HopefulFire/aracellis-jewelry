@@ -27,10 +27,10 @@ class PostsController < ApplicationController
     end
   end
 
-  # GET: /posts/5
+  # GET: /posts/5 
   get '/posts/:id' do
     @post = Post.find_by(id: params[:id])
-    @user = User.find_by(id: session[:id])
+    @user = User.find_by(id: session[:user_id])
     if @post
       erb :"/posts/show.html"
     else
