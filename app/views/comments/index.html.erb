@@ -1,1 +1,8 @@
-<h1>This is the Model's index page.</h1>
+<h1>Comments</h1>
+<% Comments.all.reverse_each do |comment| %>
+	<h2><%= comment.user.username %></h2>
+	<p><%= comment.body %></p>
+	<% if @user && @user == comment.user %>
+		<a href=<%= "/comments/#{comment.id}/edit" %>>Edit</a>
+	<% end %>
+<% end %>

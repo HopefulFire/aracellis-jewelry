@@ -30,6 +30,8 @@ class CommentsController < ApplicationController
 
   # GET: /comments/5
   get '/comments/:id' do
+    @comment = Comment.find_by(id: params[:id])
+    @user = User.find_by(id: session[:user_id])
     erb :"/comments/show.html"
   end
 
@@ -44,7 +46,12 @@ class CommentsController < ApplicationController
   end
 
   # DELETE: /comments/5/delete
-  delete '/comments/:id/delete' do
+  delete '/comments/:id' do
+    @comment = Comments.find_by(id: params[:id])
+    @user = User.find_by(id: session[:id])
+    if @user&.id == @comment&.user.id || @user&.is_admin
+      @comment.destroy
+    end
     redirect '/comments'
   end
 end
