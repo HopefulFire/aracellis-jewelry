@@ -5,8 +5,8 @@ class CommentsController < ApplicationController
   end
 
   # GET: /comments/new
-  get '/comments/new/:id' do
-    @post = Post.find_by(id: params[:id])
+  get '/comments/new/:post_id' do
+    @post = Post.find_by(id: params[:post_id])
     @user = User.find_by(id: session[:user_id])
     if @post
       erb :"/comments/new.html"
@@ -16,8 +16,16 @@ class CommentsController < ApplicationController
   end
 
   # POST: /comments
-  post '/comments/:id' do
-    redirect '/comments'
+  post '/comments/:post_id' do
+    @comment = Comment.new
+    @comment.post_id = params[:post_id]
+    @comment.body = params[:body]
+    @comment.user_id = session[:user_id]
+    if @comment.save
+      redirect '/posts/:post_id'
+    else
+      redirect '/comments/new/:post_id'
+    end
   end
 
   # GET: /comments/5
