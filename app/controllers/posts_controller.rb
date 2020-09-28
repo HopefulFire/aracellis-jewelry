@@ -30,6 +30,7 @@ class PostsController < ApplicationController
   # GET: /posts/5
   get '/posts/:id' do
     @post = Post.find_by(id: params[:id])
+    @user = User.find_by(id: session[:id])
     if @post
       erb :"/posts/show.html"
     else

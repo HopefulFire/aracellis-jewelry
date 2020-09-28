@@ -5,8 +5,13 @@ class CommentsController < ApplicationController
   end
 
   # GET: /comments/new
-  get '/comments/new' do
-    erb :"/comments/new.html"
+  get '/comments/new/:id' do
+    @post = Post.find_by(id: params[:id])
+    if @post
+      erb :"/comments/new.html"
+    else
+      redirect '/posts'
+    end
   end
 
   # POST: /comments

@@ -1,6 +1,12 @@
 <h1><%= @post.title %></h1>
 <p><%= @post.body %></p>
+<% if @user %>
+	<a href=<%= "/comment/new/#{@post.id}" %>>Comment</a>
+<% end %>
 <% @post.comments.reverse_each do |comment| %>
 	<h2><%= comment.user.username %></h2>
 	<p><%= comment.body %></p>
+	<% if @user && @user == comment.user %>
+		<a href=<%= "/comment/#{comment.id}/edit" %>>Edit</a>
+	<% end %>
 <% end %>
