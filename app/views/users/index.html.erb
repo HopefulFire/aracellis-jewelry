@@ -1,7 +1,0 @@
-<h1>Users On This Website</h1>
-<% for user in User.all %>
-	<a href=<%= "users/#{user.id}" %>>
-		<h2><%= user.username %></h2>
-		<p>Joined <%= user.created_at %></p>
-	</a>
-<% end %>
