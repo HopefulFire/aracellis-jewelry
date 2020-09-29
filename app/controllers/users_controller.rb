@@ -29,7 +29,11 @@ class UsersController < ApplicationController
 
   # GET: /users/5
   get '/users/:id' do
-    erb :"/users/show.html"
+    @user = User.find_by(id: params[:id])
+    if @user
+      @posts = @user.posts.reverse[0..10]
+      erb :"/users/show.html"
+    end
   end
 
   # GET: /users/5/edit
