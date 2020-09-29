@@ -37,7 +37,12 @@ class CommentsController < ApplicationController
 
   # GET: /comments/5/edit
   get '/comments/:id/edit' do
-    erb :"/comments/edit.html"
+    @comment = Comment.find_by(id: params[:id])
+    if @comment
+      erb :"/comments/edit.html"
+    else
+      redirect '/comments'
+    end
   end
 
   # PATCH: /comments/5
@@ -49,9 +54,7 @@ class CommentsController < ApplicationController
   delete '/comments/:id' do
     @comment = Comments.find_by(id: params[:id])
     @user = User.find_by(id: session[:id])
-    if @user&.id == @comment&.user.id || @user&.is_admin
-      @comment.destroy
-    end
+    @comment.destroy if @user == @comment&.user || @user&.is_admin
     redirect '/comments'
   end
 end

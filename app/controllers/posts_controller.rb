@@ -40,16 +40,27 @@ class PostsController < ApplicationController
 
   # GET: /posts/5/edit
   get '/posts/:id/edit' do
-    erb :"/posts/edit.html"
+    @post = Post.find_by(id: params[:id])
+    erb :"/posts/edit.html" if @post
   end
 
   # PATCH: /posts/5
   patch '/posts/:id' do
+    @post = Post.find_by(id: params[:id])
+    @user = User.find_by(id: session[:user_id])
+    if @user == @post.user || @user&.is_admin
+      @post.title = params[:title]
+      @post.body = params[:body]
+      @post.save
+    end
     redirect '/posts/:id'
   end
 
   # DELETE: /posts/5/delete
-  delete '/posts/:id/delete' do
+  delete '/posts/:id' do
+    @post = Post.find_by(id: params[:id])
+    @user = User.find_by(id: session[:id])
+    @post.destroy if @user == @comment&.user || @user&.is_admin
     redirect '/posts'
   end
 end

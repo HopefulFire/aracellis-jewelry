@@ -2,9 +2,12 @@
 	<h1><%= @comment.user.username %>'s comment on <%= @comment.post.title %></h1>
 	<p><%= @comment.body %></p>
 	<% if @comment.user == @user || @user&.is_admin %>
-		<a href=<%= "/comments/#{@comment.id}/edit" %>>Edit</a>
+		<form method="GET" action=<%= "/comments/#{@comment.id}/edit" %>>
+			<input type="submit" name="edit" value="edit">
+		</form>
 		<form method="GET" action=<%= "/comments/#{@comment.id}" %>>
-			<input type="submit" name="_method" value="delete" id="delete">
+			<input type="hidden" name="_method" value="DELETE" id="delete">
+			<input type="submit" name="delete" value="delete">
 		</form>
 	<% end %>
 </div>

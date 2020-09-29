@@ -1,19 +1,29 @@
 <div class="posts">
 	<h1><%= @post.title %></h1>
 	<p><%= @post.body %></p>
-</div>
-<% if @user %>
-	<% if @user == @post.user %>
-		<a href=<%= "/posts/#{@post.id}/edit" %>>Edit</a>
+	<% if @user == @post.user || user&.is_admin %>
+		<form method="GET" action=<%= "/posts/#{@post.id}/edit" %>>
+			<input type="submit" name="edit" value="edit">
+		</form>
+		<form method="GET" action=<%= "/posts/#{@post.id}" %>>
+			<input type="hidden" name="_method" value="DELETE" id="delete">
+			<input type="submit" name="delete" value="delete">
+		</form>
+		<a href=<%= "/comments/new/#{@post.id}" %>>Comment</a>
 	<% end %>
-	<a href=<%= "/comments/new/#{@post.id}" %>>Comment</a>
-<% end %>
+</div>
 <div class="comments">
 	<% @post.comments.reverse_each do |comment| %>
 		<h2><%= comment.user.username %></h2>
 		<p><%= comment.body %></p>
-		<% if @user && @user == comment.user %>
-			<a href=<%= "/comments/#{comment.id}/edit" %>>Edit</a>
+		<% if @comment.user == @user || @user&.is_admin %>
+			<form method="GET" action=<%= "/comments/#{@comment.id}/edit" %>>
+				<input type="submit" name="edit" value="edit">
+			</form>
+			<form method="GET" action=<%= "/comments/#{@comment.id}" %>>
+				<input type="hidden" name="_method" value="DELETE" id="delete">
+				<input type="submit" name="delete" value="delete">
+			</form>
 		<% end %>
 	<% end %>
 </div>
