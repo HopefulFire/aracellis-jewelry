@@ -1,6 +1,6 @@
 <div class="posts">
 	<% if @posts %>
-		<% @posts[0..10].each do |post| %>
+		<% @posts.each do |post| %>
 			<a href=<%= "/posts/#{post.id}" %>>
 				<h2><%= post.title %></h2>
 				<h3><%= post.user.username %></h3>
