@@ -11,7 +11,20 @@ class UsersController < ApplicationController
 
   # POST: /users
   post '/users' do
-    redirect '/users'
+    @user = User.new
+    @user.username = params[:username]
+    @user.email_address = params[:email_address]
+    @user.password = params[:password]
+    @user.is_admin = false
+    if @user.save
+      @message = "You have successfully created an account for #{@user.username}"
+      @link = '/users/login'
+      erb :"/status/success.html"
+    else
+      @message = "#{@user.errors.messages.keys.first}: #{@user.errors.messages.values.first.first}"
+      @link = '/users/new'
+      erb :"/status/failure.html"
+    end
   end
 
   # GET: /users/5
