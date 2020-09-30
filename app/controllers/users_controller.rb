@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   # GET: /users
   get '/users' do
+    @users = Users.all.reversed
     erb :"/users/index.html"
   end
 
