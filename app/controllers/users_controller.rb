@@ -1,15 +1,32 @@
 class UsersController < ApplicationController
   ##### USER AUTHENTICATION #####
   get '/users/login' do
+    erb :"/users/login.html"
   end
 
   post '/users/login' do
+    @user = User.find_by(username: params[:username])
+    if @user&.authenticate(params[:password])
+      session[:user_id] = @user.id
+      @message = 'You have successfully logged in'
+      @link = "/users/#{@user.id}"
+      erb :"/status/success.html"
+    else
+      @message = 'Wrong password or username'
+      @link = '/users/login'
+      erb :"/status/failure.html"
+    end
   end
 
   get '/users/logout' do
+    erb :"/users/logout.html"
   end
 
   post '/users/logout' do
+    session.clear
+    @message = 'Successfully logged you out'
+    @link = '/'
+    erb :"/status/success.html"
   end
 
   ##### USER CRUD #####
