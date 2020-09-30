@@ -1,4 +1,18 @@
 class UsersController < ApplicationController
+  ##### USER AUTHENTICATION #####
+  get '/users/login' do
+  end
+
+  post '/users/login' do
+  end
+
+  get '/users/logout' do
+  end
+
+  post '/users/logout' do
+  end
+
+  ##### USER CRUD #####
   # GET: /users
   get '/users' do
     @users = User.all.reverse
