@@ -1,13 +1,14 @@
 <div class="posts">
+	<h2>Posts:</h2>
 	<% if @posts && @posts != [] %>
 		<% @posts.each do |post| %>
 			<a href=<%= "/posts/#{post.id}" %>>
-				<h2><%= post.title %></h2>
-				<h3><%= post.user.username %></h3>
+				<h3><%= post.title %></h3>
+				<h4><%= post.user.username %></h4>
 				<p><%= post.body[0..100] %>...</p>
 			</a>
 		<% end %>
 	<% else %>
-		<h2>Nothing here!</h2>
+		<h3>Nothing here!</h3>
 	<% end %>
 </div>

@@ -33,6 +33,10 @@ class UsersController < ApplicationController
     if @user
       @posts = @user.posts.reverse[0..10]
       erb :"/users/show.html"
+    else
+      @message = "The user with id #{params[id]} does not exist"
+      @link = '/users'
+      erb :"/status/failure.html"
     end
   end
 
