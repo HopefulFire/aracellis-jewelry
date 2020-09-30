@@ -1,7 +1,13 @@
 class UsersController < ApplicationController
   ##### USER AUTHENTICATION #####
   get '/users/login' do
-    erb :"/users/login.html"
+    @user = User.find_by(session[:user_id])
+    if !@user
+      erb :"/users/login.html"
+    else
+      @message = 'Hey, you are already logged in!'
+      @link = '/'
+      erb :"/status/failure.html"
   end
 
   post '/users/login' do
@@ -20,7 +26,12 @@ class UsersController < ApplicationController
 
   get '/users/logout' do
     @user = User.find_by(session[:user_id])
-    erb :"/users/logout.html"
+    if @user
+      erb :"/users/logout.html"
+    else
+      @message = 'Seriously? You are already anonymous!'
+      @link = '/'
+      erb :"/status/failure.html"
   end
 
   post '/users/logout' do
@@ -40,7 +51,14 @@ class UsersController < ApplicationController
 
   # GET: /users/new
   get '/users/new' do
-    erb :"/users/new.html"
+    @user = User.find_by(session[:user_id])
+    if !@user
+      erb :"/users/new.html"
+    else
+      @message = 'Hey, you are already logged in!'
+      @link = '/'
+      erb :'/status/failure.html'
+    end
   end
 
   # POST: /users
