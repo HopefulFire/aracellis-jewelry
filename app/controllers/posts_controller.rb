@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   # GET: /posts
   get '/posts' do
+    @posts = Post.all.reverse
     erb :"/posts/index.html"
   end
 
