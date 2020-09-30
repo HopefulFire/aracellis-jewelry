@@ -1,0 +1,14 @@
+<div class="images">
+	<h2>Images:</h2>
+	<% if @images && @images != [] %>
+		<% @images.each do |image| %>
+			<a href=<%= "/images/#{image.id}" %>>
+				<figure>
+					<img src=<%= image.src %>>
+				</figure>
+			</a>
+		<% end %>
+	<% else %>
+		<h3>Nothing here!</h3>
+	<% end %>
+</div>
