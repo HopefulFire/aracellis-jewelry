@@ -33,6 +33,7 @@ class UsersController < ApplicationController
       @message = 'Seriously? You are already anonymous!'
       @link = '/'
       erb :"/status/failure.html"
+    end
   end
 
   post '/users/logout' do
