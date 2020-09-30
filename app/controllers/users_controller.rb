@@ -42,17 +42,43 @@ class UsersController < ApplicationController
   end
 
   # GET: /users/5/edit
-  get '/users/:id/edit' do
-    erb :"/users/edit.html"
+  get '/users/:id/edit/:field' do
+    @user = User.find_by(id: params[:id])
+    @field = params[:field]
+    if @user
+      erb :"/users/edit.html"
+    else
+      @message = "The user with id #{params[:id]} does not exist"
+      @link = '/users'
+      erb :"/status/failure.html"
+    end
   end
 
   # PATCH: /users/5
   patch '/users/:id' do
-    redirect '/users/:id'
+    @user = User.find_by(id: params[:id])
+    if @user
+      @user.username = params[:username] if params[:username]
+      @user.email_address = params[:email_address] if params[:email_address]
+      @user.password = params[:password] if params[:password]
+      if @user.save
+        @message = "#{@user.username} successfully changed"
+        @link = '/users/home'
+        erb :"/status/success.html"
+      else
+        @message = "#{@user.errors.messages.keys.first}: #{@user.errors.messages.values.first.first}"
+        @link = "/users/#{@user.id}/edit"
+        erb :"/status/failure.html"
+      end
+    else
+      @message = "The user with id #{params[:id]} does not exist"
+      @link = '/users'
+      erb :"/status/failure.html"
+    end
   end
 
   # DELETE: /users/5/delete
-  delete '/users/:id/delete' do
+  delete '/users/:id' do
     redirect '/users'
   end
 end
