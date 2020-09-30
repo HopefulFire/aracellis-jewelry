@@ -1,11 +1,13 @@
 class ImagesController < ApplicationController
   # GET: /images
   get '/images' do
+    @user = User.find_by(session[:user_id])
     erb :"/images/index.html"
   end
 
   # GET: /images/new
   get '/images/new' do
+    @user = User.find_by(session[:user_id])
     erb :"/images/new.html"
   end
 
@@ -16,11 +18,13 @@ class ImagesController < ApplicationController
 
   # GET: /images/5
   get '/images/:id' do
+    @user = User.find_by(session[:user_id])
     erb :"/images/show.html"
   end
 
   # GET: /images/5/edit
   get '/images/:id/edit' do
+    @user = User.find_by(session[:user_id])
     erb :"/images/edit.html"
   end
 

@@ -9,6 +9,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/' do
+  	@user = User.find_by(session[:user_id])
     erb :welcome
   end
 end

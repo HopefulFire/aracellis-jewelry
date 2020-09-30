@@ -1,11 +1,13 @@
 class CommentsController < ApplicationController
   # GET: /comments
   get '/comments' do
+    @user = User.find_by(session[:user_id])
     erb :"/comments/index.html"
   end
 
   # GET: /comments/new
   get '/comments/new' do
+    @user = User.find_by(session[:user_id])
     erb :"/comments/new.html"
   end
 
@@ -16,11 +18,13 @@ class CommentsController < ApplicationController
 
   # GET: /comments/5
   get '/comments/:id' do
+    @user = User.find_by(session[:user_id])
     erb :"/comments/show.html"
   end
 
   # GET: /comments/5/edit
   get '/comments/:id/edit' do
+    @user = User.find_by(session[:user_id])
     erb :"/comments/edit.html"
   end
 
