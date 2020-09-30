@@ -19,6 +19,7 @@ class UsersController < ApplicationController
   end
 
   get '/users/logout' do
+    @user = User.find_by(session[:id])
     erb :"/users/logout.html"
   end
 
@@ -32,6 +33,7 @@ class UsersController < ApplicationController
   ##### USER CRUD #####
   # GET: /users
   get '/users' do
+    @user = User.find_by(session[:id])
     @users = User.all.reverse
     erb :"/users/index.html"
   end
