@@ -77,8 +77,18 @@ class UsersController < ApplicationController
     end
   end
 
-  # DELETE: /users/5/delete
+  # DELETE: /users/5
   delete '/users/:id' do
-    redirect '/users'
+    @user = User.find_by(id: params[:id])
+    if @user
+      @user.destroy
+      @message = "#{@user.username} was deleted"
+      @link = '/users'
+      erb :"/status/success.html"
+    else
+      @message = "The user with id #{params[:id]} does not exist"
+      @link = '/users'
+      erb :"/status/failure.html"
+    end
   end
 end
