@@ -32,6 +32,7 @@ class UsersController < ApplicationController
     @user = User.find_by(id: params[:id])
     if @user
       @posts = @user.posts.reverse[0..10]
+      @comments = @user.comments.reverse[0..10]
       erb :"/users/show.html"
     else
       @message = "The user with id #{params[id]} does not exist"
