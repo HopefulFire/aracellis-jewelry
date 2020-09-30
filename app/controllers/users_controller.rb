@@ -35,7 +35,7 @@ class UsersController < ApplicationController
       @comments = @user.comments.reverse[0..10]
       erb :"/users/show.html"
     else
-      @message = "The user with id #{params[id]} does not exist"
+      @message = "The user with id #{params[:id]} does not exist"
       @link = '/users'
       erb :"/status/failure.html"
     end
