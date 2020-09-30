@@ -8,6 +8,7 @@ class UsersController < ApplicationController
       @message = 'Hey, you are already logged in!'
       @link = '/'
       erb :"/status/failure.html"
+    end
   end
 
   post '/users/login' do
