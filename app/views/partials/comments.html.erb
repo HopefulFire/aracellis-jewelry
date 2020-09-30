@@ -1,0 +1,13 @@
+<div class="comments">
+	<h2>Comments:</h2>
+	<% if @comments && @comments != [] %>
+		<% @comments.each do |comment| %>
+			<a href=<%= "/comment/#{comment.id}" %>>
+				<h4><%= comment.user.username %></h4>
+				<p><%= comment.body %></p>
+			</a>
+		<% end %>
+	<% else %>
+		<h3>Nothing here!</h3>
+	<% end %>
+</div>
