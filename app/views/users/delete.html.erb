@@ -1,0 +1,6 @@
+<h1>Are you sure you want to delete <%= @delete_user.username %>'s account, <%= @user.username %>?</h1>
+<form method="POST" action=<%= "/users/#{@delete_user.id}" %>>
+	<input type="hidden" name="_method" value="DELETE">
+
+	<input type="submit" name="delete" value="delete">
+</form>
