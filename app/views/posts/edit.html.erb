@@ -1,1 +1,12 @@
-<h1>Insert the form to edit an instance of your model here.</h1>
+<h1>Edit your post</h1>
+<form method="POST" action="/users">
+	<label for="title">Title:</label>
+	<input type="text" name="title" id="title" value="<%= @post.title %>" required>
+
+	<label for="body">Body:</label>
+	<input type="text" name="body" id="body" value="<%= @post.body %>" required>
+
+	<input type="submit" name="submit">
+</form>
+<%= erb :"/partials/images.html" %>
+<%= erb :"/partials/comments.html" %>

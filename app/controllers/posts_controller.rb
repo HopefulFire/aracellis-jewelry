@@ -46,15 +46,24 @@ class PostsController < ApplicationController
   get '/posts/:id' do
     @user = User.find_by(id: session[:user_id])
     @post = Post.find_by(id: params[:id])
-    @images = @post.images
-    @comments = @post.comments
+    @images = @post.images.reverse
+    @comments = @post.comments.reverse
     erb :"/posts/show.html"
   end
 
   # GET: /posts/5/edit
   get '/posts/:id/edit' do
     @user = User.find_by(id: session[:user_id])
-    erb :"/posts/edit.html"
+    @post = Post.find_by(id: params[:id])
+    @images = @post.images.reverse
+    @comments = @post.comments.reverse
+    if @user&.is_admin && @post
+      erb :"/posts/edit.html"
+    else
+      @message = 'Either you are not an admin, or the post did not exist'
+      @link = '/posts'
+      erb :"/status/failure.html"
+    end
   end
 
   # PATCH: /posts/5
