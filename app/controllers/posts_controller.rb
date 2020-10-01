@@ -68,6 +68,7 @@ class PostsController < ApplicationController
 
   # PATCH: /posts/5
   patch '/posts/:id' do
+    @post
     redirect '/posts/:id'
   end
 

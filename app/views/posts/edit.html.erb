@@ -1,5 +1,7 @@
 <h1>Edit your post</h1>
-<form method="POST" action="/users">
+<form method="POST" action=<%= "/posts/#{@post.id}" %>>
+	<input type="hidden" name="_method" value="PATCH">
+	
 	<label for="title">Title:</label>
 	<input type="text" name="title" id="title" value="<%= @post.title %>" required>
 
