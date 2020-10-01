@@ -63,10 +63,30 @@ class PostsController < ApplicationController
   end
 
   get '/posts/:id/delete' do
+    @user = User.find_by(id: session[:user_id])
+    @post = Post.find_by(id: params[:id])
+    if @user&.is_admin && @post
+      erb :"/posts/delete.html"
+    else
+      @message = 'Either you are not an admin, or the post did not exist'
+      @link = '/posts'
+      erb :"/status/failure.html"
+    end
   end
 
   # DELETE: /posts/5
   delete '/posts/:id' do
-    redirect '/posts'
+    @user = User.find_by(id: session[:user_id])
+    @post = Post.find_by(id: params[:id])
+    if @user&.is_admin && @post
+      @post.destroy
+      @message = "#{@post.title} by #{@post.user.username} was successfully deleted"
+      @link = '/posts'
+      erb :"/status/success.html"
+    else
+      @message = 'Either you are not an admin, or the post did not exist'
+      @link = '/posts'
+      erb :"/status/failure.html"
+    end
   end
 end
