@@ -6,4 +6,7 @@
 	<a href=<%= "/posts/#{@post.id}/edit" %>>Edit</a>
 	<a href=<%= "/posts/#{@post.id}/delete" %>>Delete</a>
 <% end %>
+<% if @user %>
+	<a href=<%= "" %>></a>
+<% end %>
 <%= erb :"/partials/comments.html" %>
