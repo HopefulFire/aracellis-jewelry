@@ -37,6 +37,7 @@ class UsersController < ApplicationController
   end
 
   post '/users/logout' do
+    session[:user_id] = nil
     session.clear
     @message = 'Successfully logged you out'
     @link = '/'
