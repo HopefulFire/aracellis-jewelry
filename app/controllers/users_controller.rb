@@ -84,6 +84,7 @@ class UsersController < ApplicationController
 
   # GET: /users/5
   get '/users/:id' do
+    @user = User.find_by(id: session[:user_id])
     @show_user = User.find_by(id: params[:id])
     if @show_user
       @posts = @show_user.posts.reverse[0..10]
@@ -98,12 +99,13 @@ class UsersController < ApplicationController
 
   # GET: /users/5/edit
   get '/users/:id/edit/:field' do
-    @user = User.find_by(id: params[:id])
+    @user = User.find_by(id: session[:user_id])
+    @edit_user = User.find_by(id: params[:id])
     @field = params[:field]
-    if @user
+    if @edit_user == @user || @user.is_admin
       erb :"/users/edit.html"
     else
-      @message = "The user with id #{params[:id]} does not exist"
+      @message = "The user with id #{params[:id]} does not exist or you do not have permission to edit"
       @link = '/users'
       erb :"/status/failure.html"
     end
