@@ -59,25 +59,32 @@ class UsersController < ApplicationController
       erb :"/users/new.html"
     else
       @message = 'Hey, you are already logged in!'
-      @link = '/'
+      @link = "/users/#{user.id}"
       erb :'/status/failure.html'
     end
   end
 
   # POST: /users
   post '/users' do
-    @user = User.new
-    @user.username = params[:username]
-    @user.email_address = params[:email_address]
-    @user.password = params[:password]
-    @user.is_admin = false
-    if @user.save
-      @message = "You have successfully created an account for #{@user.username}"
-      @link = '/users/login'
-      erb :"/status/success.html"
+    @user = User.find_by(id: session[:id])
+    if !@user
+      @new_user = User.new
+      @new_user.username = params[:username]
+      @new_user.email_address = params[:email_address]
+      @new_user.password = params[:password]
+      @new_user.is_admin = false
+      if @new_user.save
+        @message = "You have successfully created an account for #{@new_user.username}"
+        @link = '/users/login'
+        erb :"/status/success.html"
+      else
+        @message = "#{@new_user.errors.messages.keys.first}: #{@new_user.errors.messages.values.first.first}"
+        @link = '/users/new'
+        erb :"/status/failure.html"
+      end
     else
-      @message = "#{@user.errors.messages.keys.first}: #{@user.errors.messages.values.first.first}"
-      @link = '/users/new'
+      @message = 'You are already logged in as a user!'
+      @link = "/users/#{user.id}"
       erb :"/status/failure.html"
     end
   end
@@ -102,7 +109,7 @@ class UsersController < ApplicationController
     @user = User.find_by(id: session[:user_id])
     @edit_user = User.find_by(id: params[:id])
     @field = params[:field]
-    if @edit_user == @user || @user.is_admin
+    if @edit_user == @user || @user&.is_admin
       erb :"/users/edit.html"
     else
       @message = "The user with id #{params[:id]} does not exist or you do not have permission to edit"
@@ -113,37 +120,51 @@ class UsersController < ApplicationController
 
   # PATCH: /users/5
   patch '/users/:id' do
-    @user = User.find_by(id: params[:id])
-    if @user
-      @user.username = params[:username] if params[:username]
-      @user.email_address = params[:email_address] if params[:email_address]
-      @user.password = params[:password] if params[:password]
-      if @user.save
+    @user = User.find_by(id: session[:user_id])
+    @edit_user = User.find_by(id: params[:id])
+    if @edit_user == @user || @user.is_admin
+      @edit_user.username = params[:username] if params[:username]
+      @edit_user.email_address = params[:email_address] if params[:email_address]
+      @edit_user.password = params[:password] if params[:password]
+      if @edit_user.save
+        @user = @edit_user
         @message = "#{@user.username} successfully changed"
-        @link = '/users/home'
+        @link = "/users/#{@user.id}"
         erb :"/status/success.html"
       else
-        @message = "#{@user.errors.messages.keys.first}: #{@user.errors.messages.values.first.first}"
-        @link = "/users/#{@user.id}/edit"
+        @message = "#{@edit_user.errors.messages.keys.first}: #{@edit_user.errors.messages.values.first.first}"
+        @link = "/users/#{@edit_user.id}/edit"
         erb :"/status/failure.html"
       end
     else
-      @message = "The user with id #{params[:id]} does not exist"
+      @message = "The user with id #{params[:id]} does not exist or you do not have permission to edit"
       @link = '/users'
       erb :"/status/failure.html"
     end
   end
 
+  get '/users/:id/delete' do
+    @user = User.find_by(id: session[:user_id])
+    @delete_user = User.find_by(id: params[:id])
+    if @delete_user == @user || @user&.is_admin
+      erb :"/users/delete.html"
+    else
+      @message = "The user with id #{params[:id]} does not exist or you do not have permission to delete"
+      @link = '/users'
+    end
+  end
+
   # DELETE: /users/5
   delete '/users/:id' do
-    @user = User.find_by(id: params[:id])
-    if @user
-      @user.destroy
-      @message = "#{@user.username} was deleted"
+    @user = User.find_by(id: session[:user_id])
+    @delete_user = User.find_by(id: params[:id])
+    if @delete_user == @user || @user&.is_admin
+      @delete_user.destroy
+      @message = "#{@delete_user.username} was deleted"
       @link = '/users'
       erb :"/status/success.html"
     else
-      @message = "The user with id #{params[:id]} does not exist"
+      @message = "The user with id #{params[:id]} does not exist or you do not have permission to delete"
       @link = '/users'
       erb :"/status/failure.html"
     end
