@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   ##### USER AUTHENTICATION #####
   get '/users/login' do
-    @user = User.find_by(session[:user_id])
+    @user = User.find_by(id: session[:user_id])
     if !@user
       erb :"/users/login.html"
     else
@@ -26,7 +26,7 @@ class UsersController < ApplicationController
   end
 
   get '/users/logout' do
-    @user = User.find_by(session[:user_id])
+    @user = User.find_by(id: session[:user_id])
     if @user
       erb :"/users/logout.html"
     else
@@ -47,14 +47,14 @@ class UsersController < ApplicationController
   ##### USER CRUD #####
   # GET: /users
   get '/users' do
-    @user = User.find_by(session[:user_id])
+    @user = User.find_by(id: session[:user_id])
     @users = User.all.reverse
     erb :"/users/index.html"
   end
 
   # GET: /users/new
   get '/users/new' do
-    @user = User.find_by(session[:user_id])
+    @user = User.find_by(id: session[:user_id])
     if !@user
       erb :"/users/new.html"
     else

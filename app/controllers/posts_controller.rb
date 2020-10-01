@@ -1,14 +1,14 @@
 class PostsController < ApplicationController
   # GET: /posts
   get '/posts' do
-    @user = User.find_by(session[:user_id])
+    @user = User.find_by(id: session[:user_id])
     @posts = Post.all.reverse
     erb :"/posts/index.html"
   end
 
   # GET: /posts/new
   get '/posts/new' do
-    @user = User.find_by(session[:user_id])
+    @user = User.find_by(id: session[:user_id])
     erb :"/posts/new.html"
   end
 
@@ -19,13 +19,13 @@ class PostsController < ApplicationController
 
   # GET: /posts/5
   get '/posts/:id' do
-    @user = User.find_by(session[:user_id])
+    @user = User.find_by(id: session[:user_id])
     erb :"/posts/show.html"
   end
 
   # GET: /posts/5/edit
   get '/posts/:id/edit' do
-    @user = User.find_by(session[:user_id])
+    @user = User.find_by(id: session[:user_id])
     erb :"/posts/edit.html"
   end
 
