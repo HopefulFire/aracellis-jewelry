@@ -46,6 +46,8 @@ class PostsController < ApplicationController
   get '/posts/:id' do
     @user = User.find_by(id: session[:user_id])
     @post = Post.find_by(id: params[:id])
+    @images = @post.images
+    @comments = @post.comments
     erb :"/posts/show.html"
   end
 
@@ -60,8 +62,11 @@ class PostsController < ApplicationController
     redirect '/posts/:id'
   end
 
-  # DELETE: /posts/5/delete
-  delete '/posts/:id/delete' do
+  get '/posts/:id/delete' do
+  end
+
+  # DELETE: /posts/5
+  delete '/posts/:id' do
     redirect '/posts'
   end
 end

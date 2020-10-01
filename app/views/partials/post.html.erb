@@ -1,3 +1,9 @@
 <h1><%= @post.title %></h1>
 <h6>by <%= @post.user.username %></h6>
 <p><%= @post.body %></p>
+<%= erb :"/partials/images.html" %>
+<% if @post.user == @user || @user&.is_admin %>
+	<a href=<%= "/posts/#{@post.id}/edit" %>>Edit</a>
+	<a href=<%= "/posts/#{@post.id}/delete" %>>Delete</a>
+<% end %>
+<%= erb :"/partials/comments.html" %>
