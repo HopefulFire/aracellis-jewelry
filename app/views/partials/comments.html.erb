@@ -1,5 +1,4 @@
 <div class="comments">
-	<h2>Comments:</h2>
 	<% if @comments && @comments != [] %>
 		<% @comments.each do |comment| %>
 			<a href=<%= "/comment/#{comment.id}" %>>

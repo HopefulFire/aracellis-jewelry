@@ -1,5 +1,4 @@
 <div class="users">
-	<h2>Users:</h2>
 	<% if @users && @users != [] %>
 		<% @users.each do |user| %>
 			<a href=<%= "/users/#{user.id}" %>>

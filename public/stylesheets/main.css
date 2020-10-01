@@ -113,3 +113,8 @@
     line-height: 24px;
   }
 }
+
+header {
+  display: block;
+  text-align: center;
+}
