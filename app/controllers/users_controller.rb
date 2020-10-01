@@ -84,10 +84,10 @@ class UsersController < ApplicationController
 
   # GET: /users/5
   get '/users/:id' do
-    @user = User.find_by(id: params[:id])
-    if @user
-      @posts = @user.posts.reverse[0..10]
-      @comments = @user.comments.reverse[0..10]
+    @show_user = User.find_by(id: params[:id])
+    if @show_user
+      @posts = @show_user.posts.reverse[0..10]
+      @comments = @show_user.comments.reverse[0..10]
       erb :"/users/show.html"
     else
       @message = "The user with id #{params[:id]} does not exist"
