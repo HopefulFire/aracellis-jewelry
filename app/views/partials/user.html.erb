@@ -5,5 +5,7 @@
 	<a href=<%= "/users/#{@user.id}/edit/email_address" %>>Change email address</a>
 	<a href=<%= "/users/#{@user.id}/edit/password" %>>Change password</a>
 <% end %>
+<h2>Posts:</h2>
 <%= erb :"/partials/posts.html" %>
+<h2>Comments:</h2>
 <%= erb :"/partials/comments.html" %>
