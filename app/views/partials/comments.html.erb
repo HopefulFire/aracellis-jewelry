@@ -1,6 +1,7 @@
 <div class="comments">
 	<% if @comments && @comments != [] %>
 		<% @comments.each do |comment| %>
+			<br>
 			<h4><%= comment.user.username %></h4>
 			<p><%= comment.body %></p>
 			<% if @user = comment.user || @user&.is_admin %>
