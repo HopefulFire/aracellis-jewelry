@@ -46,7 +46,7 @@ class CommentsController < ApplicationController
         erb :"/status/failure.html"
       else
         @message = 'Successfully saved your comment'
-        @link = "/comments/#{comment.id}"
+        @link = "/comments/#{@comment.id}"
         erb :"/status/success.html"
       end
     end
