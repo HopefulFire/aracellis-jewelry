@@ -1,1 +1,8 @@
-<h1>Insert the form to create a new instance of your model.</h1>
+<h1>Create a comment</h1>
+<form method="POST" action=<%= "/comments/#{@post.id}" %>>
+	<label for="body">Body:</label>
+	<input type="text" name="body" id="body">
+
+	<input type="submit" name="submit">
+</form>
+<%= erb :"/partials/post.html" %>
