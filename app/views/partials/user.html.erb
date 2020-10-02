@@ -1,9 +1,9 @@
 <h1><%= @show_user.username %></h1>
 <% if @show_user == @user %>
-	<a href=<%= "/user/#{@user.id}/edit/username" %>>Change username</a>
+	<a href=<%= "/users/#{@user.id}/edit/username" %>>Change username</a>
 	<%= @user.email_address %>
-	<a href=<%= "/user/#{@user.id}/edit/email_address" %>>Change email address</a>
-	<a href=<%= "/user/#{@user.id}/edit/password" %>>Change password</a>
+	<a href=<%= "/users/#{@user.id}/edit/email_address" %>>Change email address</a>
+	<a href=<%= "/users/#{@user.id}/edit/password" %>>Change password</a>
 <% end %>
 <%= erb :"/partials/posts.html" %>
 <%= erb :"/partials/comments.html" %>
