@@ -26,7 +26,7 @@ class CommentsController < ApplicationController
   # POST: /comments
   post '/comments/:post_id' do
     @user = User.find_by(id: session[:user_id])
-    @post = Post.find_by(id: params[:id])
+    @post = Post.find_by(id: params[:post_id])
     if !@user
       @message = 'You need to be logged in'
       @link = '/users/login'
@@ -55,7 +55,14 @@ class CommentsController < ApplicationController
   # GET: /comments/5
   get '/comments/:id' do
     @user = User.find_by(id: session[:user_id])
-    erb :"/comments/show.html"
+    @comment = Comment.find_by(id: params[:id])
+    if !@comment
+      @message = 'That comment does not exist'
+      @link = '/comments'
+      erb :"/status/failure.html"
+    else
+      redirect "/posts/#{@comment.post.id}"
+    end
   end
 
   # GET: /comments/5/edit
