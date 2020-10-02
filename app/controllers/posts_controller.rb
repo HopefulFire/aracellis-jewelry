@@ -103,6 +103,8 @@ class PostsController < ApplicationController
       erb :"/status/failure.html"
     else
       @message = "#{@post.title} by #{@post.user.username} was successfully edited"
+      @link = "/posts/#{@post.id}"
+      erb :"/status/success.html"
     end
   end
 
