@@ -4,7 +4,7 @@
 			<br>
 			<h4><%= comment.user.username %></h4>
 			<p><%= comment.body %></p>
-			<% if @user = comment.user || @user&.is_admin %>
+			<% if @user == comment.user || @user&.is_admin %>
 				<a href=<%= "/comments/#{comment.id}/edit" %>>Edit</a>
 				<a href=<%= "/comments/#{comment.id}/delete" %>>Delete</a>
 			<% end %>
