@@ -81,6 +81,29 @@ class PostsController < ApplicationController
 
   # PATCH: /posts/5
   patch '/posts/:id' do
+    @user = User.find_by(id: session[:user_id])
+    @post = Post.find_by(id: params[:id])
+    @post.title = params[:title]
+    @post.body = params[:body]
+    if !@user
+      @message = 'You need to log in to edit a post'
+      @link = '/users/login'
+      erb :"/status/failure.html"
+    elsif !@user.is_admin
+      @message = 'You need to be an admin to edit a post'
+      @link = "/users/#{@user.id}"
+      erb :"/status/failure.html"
+    elsif !@post
+      @message = 'That post does not exist'
+      @link = '/posts'
+      erb :"/status/failure.html"
+    elsif !@post.save
+      @message = "#{@post.errors.messages.keys.first}: #{@post.errors.messages.values.first.first}"
+      @link = "/posts/#{@post.id}/edit"
+      erb :"/status/failure.html"
+    else
+      @message = "#{@post.title} by #{@post.user.username} was successfully edited"
+    end
   end
 
   get '/posts/:id/delete' do
