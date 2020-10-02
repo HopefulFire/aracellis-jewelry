@@ -9,36 +9,41 @@ class PostsController < ApplicationController
   # GET: /posts/new
   get '/posts/new' do
     @user = User.find_by(id: session[:user_id])
-    if @user&.is_admin
-      erb :"/posts/new.html"
-    else
-      @message = 'You must log in as an admin to submit a post'
+    if !@user
+      @message = 'You must log in to submit a post'
       @link = '/users/login'
       erb :"/status/failure.html"
+    elsif !@user.is_admin
+      @message = 'You need to be an admin to submit a post'
+      @link = "/users/#{@user.id}"
+      erb :"/status/failure.html"
+    else
+      erb :"/posts/new.html"
     end
   end
 
   # POST: /posts
   post '/posts' do
     @user = User.find_by(id: session[:user_id])
-    if @user&.is_admin
-      @post = Post.new
-      @post.title = params[:title]
-      @post.body = params[:body]
-      @post.user = @user
-      if @post.save
-        @message = 'Successfully created your post!'
-        @link = "/posts/#{@post.id}"
-        erb :"/status/success.html"
-      else
-        @message = "#{@posts.errors.messages.keys.first}: #{@posts.errors.messages.values.first.first}"
-        @link = '/posts/new'
-        erb :"/status/failure.html"
-      end
-    else
-      @message = 'You must log in as an admin to submit a post'
+    @post = Post.new
+    @post.title = params[:title]
+    @post.body = params[:body]
+    if !@user
+      @message = 'You must log in to submit a post'
       @link = '/users/login'
       erb :"/status/failure.html"
+    elsif !@user.is_admin
+      @message = 'You need to be an admin to submit a post'
+      @link = "/users/#{@user.id}"
+      erb :"/status/failure.html"
+    elsif !@post.save
+      @message = "#{@posts.errors.messages.keys.first}: #{@posts.errors.messages.values.first.first}"
+      @link = '/posts/new'
+      erb :"/status/failure.html"
+    else
+      @message = 'Successfully created your post!'
+      @link = "/posts/#{@post.id}"
+      erb :"/status/success.html"
     end
   end
 
