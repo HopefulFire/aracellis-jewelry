@@ -57,29 +57,44 @@ class PostsController < ApplicationController
     @post = Post.find_by(id: params[:id])
     @images = @post.images.reverse
     @comments = @post.comments.reverse
-    if @user&.is_admin && @post
-      erb :"/posts/edit.html"
-    else
-      @message = 'Either you are not an admin, or the post did not exist'
+    if !@user
+      @message = 'You need to log in to edit a post'
+      @link = '/users/login'
+      erb :"/status/failure.html"
+    elsif !@user.is_admin
+      @message = 'You need to be an admin to edit a post'
+      @link = "/users/#{@user.id}"
+      erb :"/status/failure.html"
+    elsif !@post
+      @message = 'That post does not exist'
       @link = '/posts'
       erb :"/status/failure.html"
+    else
+      erb :"/posts/edit.html"
     end
   end
 
   # PATCH: /posts/5
   patch '/posts/:id' do
-    redirect '/posts/:id'
   end
 
   get '/posts/:id/delete' do
     @user = User.find_by(id: session[:user_id])
     @post = Post.find_by(id: params[:id])
-    if @user&.is_admin && @post
-      erb :"/posts/delete.html"
-    else
-      @message = 'Either you are not an admin, or the post did not exist'
+    if !@user
+      @message = 'You need to log in to delete a post'
+      @link = '/users/login'
+      erb :"/status/failure.html"
+    elsif !@user.is_admin
+      @message = 'You need to be an admin to delete a post'
+      @link = "/users/#{@user.id}"
+      erb :"/status/failure.html"
+    elsif !@post
+      @message = 'That post does not exist'
       @link = '/posts'
       erb :"/status/failure.html"
+    else
+      erb :"/posts/delete.html"
     end
   end
 
