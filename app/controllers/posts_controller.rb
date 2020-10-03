@@ -37,7 +37,7 @@ class PostsController < ApplicationController
       @link = "/users/#{@user.id}"
       erb :"/status/failure.html"
     elsif !@post.save
-      @message = "#{@posts.errors.messages.keys.first}: #{@posts.errors.messages.values.first.first}"
+      @message = "#{@post.errors.messages.keys.first}: #{@post.errors.messages.values.first.first}"
       @link = '/posts/new'
       erb :"/status/failure.html"
     else
