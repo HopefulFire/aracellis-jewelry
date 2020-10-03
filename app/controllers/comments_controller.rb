@@ -106,7 +106,7 @@ class CommentsController < ApplicationController
   end
 
   get '/comments/:id/delete' do
-    @user = User.find_by(id: session[:id])
+    @user = User.find_by(id: session[:user_id])
     @comment = Comment.find_by(id: params[:id])
     if !@user
       @message = 'You need to log in to delete a comment'
@@ -126,7 +126,7 @@ class CommentsController < ApplicationController
   end
   # DELETE: /comments/5/delete
   delete '/comments/:id' do
-    @user = User.find_by(id: session[:id])
+    @user = User.find_by(id: session[:user_id])
     @comment = Comment.find_by(id: params[:id])
     if !@user
       @message = 'You need to log in to delete a comment'
