@@ -96,11 +96,11 @@ class CommentsController < ApplicationController
       erb :"/status/failure.html"
     elsif !@comment.save
       @message = "#{@comment.errors.messages.keys.first}: #{@comment.errors.messages.values.first.first}"
-      @link = "/comments/#{comment.id}/edit"
+      @link = "/comments/#{@comment.id}/edit"
       erb :"/status/failure.html"
     else
       @message = 'Comment successfully edited'
-      @link = "/comments/#{comment.id}"
+      @link = "/comments/#{@comment.id}"
       erb :"/status/success.html"
     end
   end
