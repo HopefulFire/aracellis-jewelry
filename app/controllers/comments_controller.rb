@@ -41,7 +41,7 @@ class CommentsController < ApplicationController
       erb :"/status/failure.html"
     elsif !@comment.save
       @message = "#{@comment.errors.messages.keys.first}: #{@comment.errors.messages.values.first.first}"
-      @link = "/comment/new/#{@post.id}"
+      @link = "/comments/new/#{@post.id}"
       erb :"/status/failure.html"
     else
       @message = 'Successfully saved your comment'
@@ -66,16 +66,83 @@ class CommentsController < ApplicationController
   # GET: /comments/5/edit
   get '/comments/:id/edit' do
     @user = User.find_by(id: session[:user_id])
-    erb :"/comments/edit.html"
+    @comment = Comment.find_by(id: params[:id])
+    if !@user
+      @message = 'You must log in to comment'
+      @link = '/users/login'
+      erb :"/status/failure.html"
+    elsif !@comment
+      @message = 'That comment does not exist'
+      @link = '/comments'
+      erb :"/status/failure.html"
+    else
+      @post = @comment.post
+      erb :"/comments/edit.html"
+    end
   end
 
   # PATCH: /comments/5
   patch '/comments/:id' do
-    redirect '/comments/:id'
+    @user = User.find_by(id: session[:user_id])
+    @comment = Comment.find_by(id: params[:id])
+    @comment.body = params[:body]
+    if !@user
+      @message = 'You must log in to comment'
+      @link = '/users/login'
+      erb :"/status/failure.html"
+    elsif !@comment
+      @message = 'That comment does not exist'
+      @link = '/comments'
+      erb :"/status/failure.html"
+    elsif !@comment.save
+      @message = "#{@comment.errors.messages.keys.first}: #{@comment.errors.messages.values.first.first}"
+      @link = "/comments/#{comment.id}/edit"
+      erb :"/status/failure.html"
+    else
+      @message = 'Comment successfully edited'
+      @link = "/comments/#{comment.id}"
+      erb :"/status/success.html"
   end
 
+  get '/comments/:id/delete' do
+    @user = User.find_by(id: session[:id])
+    @comment = Comment.find_by(id: params[:id])
+    if !@user
+      @message = 'You need to log in to delete a comment'
+      @link = '/users/login'
+      erb :"/status/failure.html"
+    elsif !@comment
+      @message = "The comment with id #{params[:id]} does not exist"
+      @link = '/comments'
+      erb :"/status/failure.html"
+    elsif @comment.user != @user && !@user.is_admin
+      @message = 'You do not have permission to delete this comment'
+      @link = '/comments'
+      erb :"/status/failure.html"
+    else
+      erb :"/comments/delete.html"
+  end
   # DELETE: /comments/5/delete
-  delete '/comments/:id/delete' do
-    redirect '/comments'
+  delete '/comments/:id' do
+    @user = User.find_by(id: session[:id])
+    @comment = Comment.find_by(id: params[:id])
+    if !@user
+      @message = 'You need to log in to delete a comment'
+      @link = '/users/login'
+      erb :"/status/failure.html"
+    elsif !@comment
+      @message = "The comment with id #{params[:id]} does not exist"
+      @link = '/comments'
+      erb :"/status/failure.html"
+    elsif @comment.user != @user && !@user.is_admin
+      @message = 'You do not have permission to delete this comment'
+      @link = '/comments'
+      erb :"/status/failure.html"
+    else
+      @comment.destroy
+      @message = "Comment by #{@comment.username} was deleted"
+      @link = '/comments'
+      erb :"/status/success.html"
+    end
   end
 end
