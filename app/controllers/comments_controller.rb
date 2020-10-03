@@ -27,6 +27,10 @@ class CommentsController < ApplicationController
   post '/comments/:post_id' do
     @user = User.find_by(id: session[:user_id])
     @post = Post.find_by(id: params[:post_id])
+    @comment = Comment.new
+    @comment.body = params[:body]
+    @comment.user = @user
+    @comment.post = @post
     if !@user
       @message = 'You need to be logged in'
       @link = '/users/login'
@@ -35,20 +39,14 @@ class CommentsController < ApplicationController
       @message = 'That post does not exist'
       @link = '/posts'
       erb :"/status/failure.html"
+    elsif !@comment.save
+      @message = "#{@comment.errors.messages.keys.first}: #{@comment.errors.messages.values.first.first}"
+      @link = "/comment/new/#{@post.id}"
+      erb :"/status/failure.html"
     else
-      @comment = Comment.new
-      @comment.body = params[:body]
-      @comment.user = @user
-      @comment.post = @post
-      if !@comment.save
-        @message = "#{@comment.errors.messages.keys.first}: #{@comment.errors.messages.values.first.first}"
-        @link = "/comment/new/#{@post.id}"
-        erb :"/status/failure.html"
-      else
-        @message = 'Successfully saved your comment'
-        @link = "/comments/#{@comment.id}"
-        erb :"/status/success.html"
-      end
+      @message = 'Successfully saved your comment'
+      @link = "/comments/#{@comment.id}"
+      erb :"/status/success.html"
     end
   end
 
