@@ -142,7 +142,7 @@ class CommentsController < ApplicationController
       erb :"/status/failure.html"
     else
       @comment.destroy
-      @message = "Comment by #{@comment.username} was deleted"
+      @message = "Comment by #{@comment.user.username} was deleted"
       @link = '/comments'
       erb :"/status/success.html"
     end
