@@ -85,7 +85,7 @@ class CommentsController < ApplicationController
   patch '/comments/:id' do
     @user = User.find_by(id: session[:user_id])
     @comment = Comment.find_by(id: params[:id])
-    @comment.body = params[:body]
+    @comment&.body = params[:body]
     if !@user
       @message = 'You must log in to comment'
       @link = '/users/login'
