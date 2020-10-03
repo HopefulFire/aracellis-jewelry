@@ -102,6 +102,7 @@ class CommentsController < ApplicationController
       @message = 'Comment successfully edited'
       @link = "/comments/#{comment.id}"
       erb :"/status/success.html"
+    end
   end
 
   get '/comments/:id/delete' do
@@ -121,6 +122,7 @@ class CommentsController < ApplicationController
       erb :"/status/failure.html"
     else
       erb :"/comments/delete.html"
+    end
   end
   # DELETE: /comments/5/delete
   delete '/comments/:id' do
