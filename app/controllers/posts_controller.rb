@@ -28,6 +28,7 @@ class PostsController < ApplicationController
     @post = Post.new
     @post.title = params[:title]
     @post.body = params[:body]
+    @post.user = @user
     if !@user
       @message = 'You must log in to submit a post'
       @link = '/users/login'
